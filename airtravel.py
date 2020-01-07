@@ -134,42 +134,64 @@ class Flight:
                     yield passenger, "{}{}".format(row, letter)
 
 
-class Aircraft:
-    def __init__(self, registration, model, num_of_rows, num_of_seats_per_row):
+class AirbusA319:
+    def __init__(self, registration):
         self._registration = registration
-        self._model = model
-        self._num_of_rows = num_of_rows
-        self._num_of_seats_per_row = num_of_seats_per_row
 
     def registration(self):
         return self._registration
 
     def model(self):
-        return self._model
+        return "Airbus A319"
 
     def seating_plan(self):
-        return range(1, self._num_of_rows + 1), "ABCDEF"[:self._num_of_seats_per_row]
+        return range(1, 23), "ABCDEF"
 
 
-def make_flight():
+class Boeing777:
+    def __init__(self, registration):
+        self._registration = registration
+
+    def registration(self):
+        return self._registration
+
+    def model(self):
+        return "Boeing 777"
+
+    def seating_plan(self):
+        """
+        For simplicity sake, ingore the complexity of first-class
+        :return:
+        """
+        return range(1, 56), "ABCDEGHJK"
+
+
+def make_flights():
     """
     Create a dummy flight with some passengers
     :return:
     """
-    f = Flight("SN766", Aircraft("G-EUPT", "Airbus A319", num_of_rows=25, num_of_seats_per_row=6))
+    f = Flight("SN766", AirbusA319("G-EUPT"))
     f.allocate_seat("12A", "Oliver Martinez")
     f.allocate_seat("15F", "Emily Sophie Brown")
     f.allocate_seat("15E", "Sophie Chloe Davis")
     f.allocate_seat("1C", "Daniel Smith")
     f.allocate_seat("1E", "Charlotte Lucy Jones")
-    return f
+
+    g = Flight("AF72", Boeing777("F-GSPS"))
+    g.allocate_seat("55A", "Larry Wall")
+    g.allocate_seat("33G", "Yukihiro Matsumoto")
+    g.allocate_seat("4B", "Brian Kernighan")
+    g.allocate_seat("4A", "Dennis Ritchie")
+
+    return f, g
 
 
 def console_card_printer(passenger, seat, flight_number, aircraft):
-    output = "| Name: {0}"      \
-             "  Flight: {1}"    \
-             "  Seat: {2}"      \
-             "  Aircraft: {3}"  \
+    output = "| Name: {0}" \
+             "  Flight: {1}" \
+             "  Seat: {2}" \
+             "  Aircraft: {3}" \
              " |".format(passenger, seat, flight_number, aircraft)
     banner = "+" + "-" * (len(output) - 2) + "+"
     border = "|" + " " * (len(output) - 2) + "|"
