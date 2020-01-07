@@ -134,13 +134,19 @@ class Flight:
                     yield passenger, "{}{}".format(row, letter)
 
 
-class AirbusA319:
+class Aircraft:
     def __init__(self, registration):
         self._registration = registration
 
     def registration(self):
         return self._registration
 
+    def num_seats(self):
+        rows, row_seats = self.seating_plan()
+        return len(rows) * len(row_seats)
+
+
+class AirbusA319(Aircraft):
     def model(self):
         return "Airbus A319"
 
@@ -148,13 +154,7 @@ class AirbusA319:
         return range(1, 23), "ABCDEF"
 
 
-class Boeing777:
-    def __init__(self, registration):
-        self._registration = registration
-
-    def registration(self):
-        return self._registration
-
+class Boeing777(Aircraft):
     def model(self):
         return "Boeing 777"
 
